@@ -5,4 +5,18 @@ GET http://localhost:3000/
 GET http://localhost:3000/api/posts
 
 ### get one post
-GET http://localhost:3000/api/posts/2
+GET http://localhost:3000/api/posts/2 OR 1=1
+
+### delete
+DELETE  http://localhost:3000/api/posts/7
+
+### POST CREATE POST
+POST  http://localhost:3000/api/posts
+Content-Type: application/json
+
+{
+  "title": "Post from rest",
+  "author": "Jane Dow",
+  "date": "2023-12-28",
+  "content": "Some important msg"
+}

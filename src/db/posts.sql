@@ -19,7 +19,7 @@ VALUES
 INSERT INTO `posts` (`title`, `author`, `date`, `content`)
 VALUES
 ('Post 3', 'James Band', '2023-12-24', 'Body of post 3'),
-('Post 4', 'Jane Dow', '2023-12-25', 'Body of post 4')
+('Post 4', 'Jane Dow', '2023-12-25', 'Body of post 4'),
 ('Post 5', 'Jane Dow', '2023-12-25', 'Body of post 5')
 
 -- get all posts
