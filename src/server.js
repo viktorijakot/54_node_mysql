@@ -3,6 +3,7 @@ const express = require("express");
 const morgan = require("morgan");
 const cors = require("cors");
 const mysql = require("mysql2/promise");
+const { dbConfig } = require("./config");
 
 const app = express();
 
@@ -17,36 +18,29 @@ app.use(cors());
 // SELECT * FROM `posts`
 
 app.get("/api/posts", async (req, res) => {
+  let connection;
   try {
     // prisijungiam
-    const connection = await mysql.createConnection({
-      database: "bit_main",
-      host: "localhost",
-      user: "root",
-      password: "root",
-      port: "8889",
-    });
+    connection = await mysql.createConnection(dbConfig);
     // atlikti veiksma
     const [rows, fields] = await connection.query("SELECT * FROM `posts`");
     res.json(rows);
     // atsijungiam
-    connection.end();
+    // connection.end();
   } catch (error) {
     console.warn(error);
     res.status(500).json("something wrong");
+  } finally {
+    //atsijungiam
+    // if(connection) connection.end()
+    connection?.end();
   }
 });
 
 app.get("/api/posts/:postId", async (req, res) => {
   const postId = +req.params.postId;
   try {
-    const connection = await mysql.createConnection({
-      database: "bit_main",
-      host: "localhost",
-      user: "root",
-      password: "root",
-      port: "8889",
-    });
+    const connection = await mysql.createConnection(dbConfig);
     const [rows, fields] = await connection.query("SELECT * FROM `posts`");
     const post = rows.find((rObj) => rObj.post_id === postId);
     res.json(post);
