@@ -1,29 +1,39 @@
 const express = require("express");
 const mysql = require("mysql2/promise");
 const { dbConfig } = require("../config");
+const { getSqlData } = require("./helper");
 
 const postRouter = express.Router();
 // GET /api/posts - get all posts
 // SELECT * FROM `posts`
 
 postRouter.get("/api/posts", async (req, res) => {
-  let connection;
-  try {
-    // prisijungiam
-    connection = await mysql.createConnection(dbConfig);
-    // atlikti veiksma
-    const [rows, fields] = await connection.query("SELECT * FROM `posts`");
-    res.json(rows);
-    // atsijungiam
-    // connection.end();
-  } catch (error) {
-    console.warn(error);
+  const sql = "SELECT * FROM `posts`";
+  const [postArr, error] = await getSqlData(sql);
+  if (error) {
+    console.log(error);
     res.status(500).json("something wrong");
-  } finally {
-    //atsijungiam
-    // if(connection) connection.end()
-    connection?.end();
+    return;
   }
+  console.log(postArr);
+  res.json(postArr);
+  // let connection;
+  // try {
+  //   // prisijungiam
+  //   connection = await mysql.createConnection(dbConfig);
+  //   // atlikti veiksma
+  //   const [rows, fields] = await connection.query("SELECT * FROM `posts`");
+  //   res.json(rows);
+  //   // atsijungiam
+  //   // connection.end();
+  // } catch (error) {
+  //   console.warn(error);
+  //   res.status(500).json("something wrong");
+  // } finally {
+  //   //atsijungiam
+  //   // if(connection) connection.end()
+  //   connection?.end();
+  // }
 });
 
 postRouter.get("/api/posts/:postId", async (req, res) => {
@@ -60,7 +70,7 @@ postRouter.delete("/api/posts/:postId", async (req, res) => {
   const postId = req.params.postId;
   try {
     connection = await mysql.createConnection(dbConfig);
-    const sql = "DELETE FROM posts WHERE post_id=?";
+    const sql = "DELETE FROM posts WHERE post_id=? LIMIT 1";
     const [rows] = await connection.execute(sql, [postId]);
     if (rows.affectedRows === 1) {
       res.json({ msg: `post with id ${postId} was deleted` });
