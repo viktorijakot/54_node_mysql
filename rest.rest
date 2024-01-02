@@ -20,3 +20,23 @@ Content-Type: application/json
   "date": "2023-12-28",
   "content": "Some important msg"
 }
+
+
+### all books
+GET http://localhost:3000/api/books
+
+### get one book
+GET http://localhost:3000/api/books/7 OR 1=1
+
+### delete book
+DELETE  http://localhost:3000/api/books/5
+
+### POST CREATE books
+POST  http://localhost:3000/api/books
+Content-Type: application/json
+
+{
+  "title": "Name 10",
+  "author": "Author 10",
+  "year": 1990
+}
