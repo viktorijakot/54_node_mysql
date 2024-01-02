@@ -6,6 +6,7 @@ const cors = require("cors");
 // const { dbConfig } = require("./config");
 const postRouter = require("./routes/postRoutes");
 const booksRouter = require("./routes/booksRoutes");
+const categoryRouter = require("./routes/categoryRoutes");
 
 const app = express();
 
@@ -18,6 +19,7 @@ app.use(cors());
 
 app.use("/", postRouter);
 app.use("/", booksRouter);
+app.use("/", categoryRouter);
 
 app.listen(port, () => {
   console.log(`Server is listening on port ${port}`);

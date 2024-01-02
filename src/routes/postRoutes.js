@@ -37,30 +37,46 @@ postRouter.get("/api/posts", async (req, res) => {
 });
 
 postRouter.get("/api/posts/:postId", async (req, res) => {
-  let connection;
+  // let connection;
   const postId = req.params.postId;
-  try {
-    connection = await mysql.createConnection(dbConfig);
-    // const [rows, fields] = await connection.query("SELECT * FROM `posts`");
-    // const post = rows.find((rObj) => rObj.post_id === postId);
-    // ?, kad nenulauztu, kai kintamaji naudojam
-    const sql = "SELECT * FROM posts WHERE post_id=?";
-    const [rows] = await connection.execute(sql, [postId]);
-
-    //radom viena irasa
-    if (rows.length === 1) {
-      res.json(rows[0]);
-      return;
-    }
-    //radom daugiau nei viena, neradom nei vieno
-    res.json(rows);
-    // res.status(400).json(post);
-  } catch (error) {
-    console.warn("/api/posts", error);
+  const sql = "SELECT * FROM posts WHERE post_id=?";
+  const [postArr, error] = await getSqlData(sql, [postId]);
+  if (error) {
+    console.log(error);
     res.status(500).json("something wrong");
-  } finally {
-    connection?.end();
+    return;
   }
+  if (postArr.length === 1) {
+    res.json(postArr[0]);
+    return;
+  }
+  if (postArr.length === 0) {
+    res.status(404).json({ msg: "post not found" });
+    return;
+  }
+  res.status(400).json(postArr);
+  // try {
+  //   connection = await mysql.createConnection(dbConfig);
+  //   // const [rows, fields] = await connection.query("SELECT * FROM `posts`");
+  //   // const post = rows.find((rObj) => rObj.post_id === postId);
+  //   // ?, kad nenulauztu, kai kintamaji naudojam
+  //   const sql = "SELECT * FROM posts WHERE post_id=?";
+  //   const [rows] = await connection.execute(sql, [postId]);
+
+  //   //radom viena irasa
+  //   if (rows.length === 1) {
+  //     res.json(rows[0]);
+  //     return;
+  //   }
+  //   //radom daugiau nei viena, neradom nei vieno
+  //   res.json(rows);
+  //   // res.status(400).json(post);
+  // } catch (error) {
+  //   console.warn("/api/posts", error);
+  //   res.status(500).json("something wrong");
+  // } finally {
+  //   connection?.end();
+  // }
 });
 
 //delete

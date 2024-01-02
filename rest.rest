@@ -5,7 +5,7 @@ GET http://localhost:3000/
 GET http://localhost:3000/api/posts
 
 ### get one post
-GET http://localhost:3000/api/posts/2 OR 1=1
+GET http://localhost:3000/api/posts/30 OR 1=1
 
 ### delete
 DELETE  http://localhost:3000/api/posts/7
@@ -18,7 +18,8 @@ Content-Type: application/json
   "title": "Post from rest",
   "author": "Jane Dow",
   "date": "2023-12-28",
-  "content": "Some important msg"
+  "content": "Some important msg",
+  "cat_id": 1
 }
 
 
@@ -40,3 +41,6 @@ Content-Type: application/json
   "author": "Author 10",
   "year": 1990
 }
+
+### all categories
+GET http://localhost:3000/api/categories
