@@ -8,7 +8,15 @@ const postRouter = express.Router();
 // SELECT * FROM `posts`
 
 postRouter.get("/api/posts", async (req, res) => {
-  const sql = "SELECT * FROM `posts`";
+  // const sql = "SELECT * FROM `posts`";
+  const sql = `SELECT posts.post_id, posts.title, posts.author, posts.content, posts.date,  COUNT(post_comments.comm_id) AS commentCount,
+  categories.title AS catagoryName
+  FROM posts
+  JOIN categories
+  ON posts.cat_id=categories.cat_id
+  LEFT JOIN post_comments
+  ON post_comments.post_id=posts.post_id
+  GROUP BY posts.post_id`;
   const [postArr, error] = await getSqlData(sql);
   if (error) {
     console.log(error);
@@ -82,53 +90,84 @@ postRouter.get("/api/posts/:postId", async (req, res) => {
 //delete
 
 postRouter.delete("/api/posts/:postId", async (req, res) => {
-  let connection;
+  // let connection;
   const postId = req.params.postId;
-  try {
-    connection = await mysql.createConnection(dbConfig);
-    const sql = "DELETE FROM posts WHERE post_id=? LIMIT 1";
-    const [rows] = await connection.execute(sql, [postId]);
-    if (rows.affectedRows === 1) {
-      res.json({ msg: `post with id ${postId} was deleted` });
-      return;
-    }
-    res.status(400).json({ msg: `no rows affected`, rows });
-  } catch (error) {
-    console.warn("/api/posts", error);
+  const sql = "DELETE FROM posts WHERE post_id=? LIMIT 1";
+  const [postArr, error] = await getSqlData(sql, [postId]);
+  if (error) {
+    console.log(error);
     res.status(500).json("something wrong");
-  } finally {
-    connection?.end();
+    return;
   }
+  if (postArr.affectedRows === 1) {
+    res.json({ msg: `post with id ${postId} was deleted` });
+    return;
+  }
+  res.status(400).json({ msg: `no rows affected`, postArr });
+
+  // try {
+  //   connection = await mysql.createConnection(dbConfig);
+  //   const sql = "DELETE FROM posts WHERE post_id=? LIMIT 1";
+  //   const [rows] = await connection.execute(sql, [postId]);
+  //   if (rows.affectedRows === 1) {
+  //     res.json({ msg: `post with id ${postId} was deleted` });
+  //     return;
+  //   }
+  //   res.status(400).json({ msg: `no rows affected`, rows });
+  // } catch (error) {
+  //   console.warn("/api/posts", error);
+  //   res.status(500).json("something wrong");
+  // } finally {
+  //   connection?.end();
+  // }
 });
 
 //POST /api/posts - sukuria nauja posta
 
 postRouter.post("/api/posts", async (req, res) => {
-  const { title, author, date, content } = req.body;
+  const { title, author, date, content, cat_id: catId } = req.body;
+  const sql = `
+      INSERT INTO posts (title, author, date, content, cat_id)
+      VALUES (?, ?, ?, ?, ?)
+      `;
+  const [postArr, error] = await getSqlData(sql, [
+    title,
+    author,
+    date,
+    content,
+    catId,
+  ]);
+  if (error) {
+    console.log(error);
+    res.status(500).json("something wrong");
+    return;
+  }
+  res.json(postArr);
 
   //validation
 
-  let connection;
-  try {
-    connection = await mysql.createConnection(dbConfig);
-    const sql = `
-      INSERT INTO posts (title, author, date, content)
-      VALUES (?, ?, ?, ?)
-      `;
-    const [rowObj] = await connection.execute(sql, [
-      title,
-      author,
-      date,
-      content,
-    ]);
-    res.json(rowObj);
-  } catch (error) {
-    console.warn("/api/posts", error);
-    res.status(500).json("something wrong");
-  } finally {
-    connection?.end();
-  }
-  // res.json("sukurti");
+  // let connection;
+  // try {
+  //   connection = await mysql.createConnection(dbConfig);
+  //   const sql = `
+  //     INSERT INTO posts (title, author, date, content, cat_id)
+  //     VALUES (?, ?, ?, ?, ?)
+  //     `;
+  //   const [rowObj] = await connection.execute(sql, [
+  //     title,
+  //     author,
+  //     date,
+  //     content,
+  //     catId,
+  //   ]);
+  //   res.json(rowObj);
+  // } catch (error) {
+  //   console.warn("/api/posts", error);
+  //   res.status(500).json("something wrong");
+  // } finally {
+  //   connection?.end();
+  // }
+  // // res.json("sukurti");
 });
 
 module.exports = postRouter;

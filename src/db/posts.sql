@@ -24,3 +24,5 @@ VALUES
 
 -- get all posts
 SELECT * FROM `posts1`
+
+--comments table

@@ -1,0 +1,56 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Document</title>
+    <script src="front.js" defer></script>
+    <span class="pln"><!-- Google Fonts -->
+    </span>
+    <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Roboto:300,300italic,700,700italic"><span
+        class="pln">
+
+        <!-- CSS Reset -->
+    </span>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/normalize/8.0.1/normalize.css"><span
+        class="pln">
+
+        <!-- Milligram CSS -->
+    </span>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/milligram/1.4.1/milligram.css"><span
+        class="pln">
+        <style>
+            .row {
+                flex-wrap: wrap;
+            }
+        </style>
+</head>
+
+<body class="container">
+    <h1>Create post</h1>
+    <form>
+        <input type="text" name="title" id="title" placeholder="title" />
+        <input type="text" name="author" id="author" placeholder="author" />
+        <input type="date" name="date" id="date" />
+        <textarea name="content" id="content" placeholder="content"></textarea>
+        <select name="category" id="category">
+            <option selected disabled>Pasirnikite</option>
+        </select>
+        <button type="submit">Creazte Post</button>
+    </form>
+    <div>
+        <h2>Posts</h2>
+        <ul id="posts-list" class="unlisted row">
+            <!-- <li data-id="1" class="post column column-50">
+            <h3>Title</h3>
+            <p><i>Author</i></p>
+            <p>Date</p>
+            <p>Content</p>
+            <p>Category</p>
+        </li> -->
+        </ul>
+    </div>
+</body>
+
+</html>

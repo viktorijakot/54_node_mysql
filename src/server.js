@@ -7,6 +7,7 @@ const cors = require("cors");
 const postRouter = require("./routes/postRoutes");
 const booksRouter = require("./routes/booksRoutes");
 const categoryRouter = require("./routes/categoryRoutes");
+const authRouter = require("./routes/authRoutes");
 
 const app = express();
 
@@ -20,6 +21,7 @@ app.use(cors());
 app.use("/", postRouter);
 app.use("/", booksRouter);
 app.use("/", categoryRouter);
+app.use("/", authRouter);
 
 app.listen(port, () => {
   console.log(`Server is listening on port ${port}`);
