@@ -43,7 +43,7 @@ authRouter.post("/api/auth/register", async (req, res) => {
   const [usersArr, error] = await getSqlData(sql, [email, password, created]);
   if (error) {
     console.log(error);
-    res.status(500).json("something wrong");
+    res.status(500).json("This email already exist");
     return;
   }
   res.status(200).json("new user was created");
