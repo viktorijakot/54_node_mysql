@@ -29,18 +29,31 @@ app.use((err, req, res, next) => {
   console.log("<<<< error handling >>>>");
   console.log("err", err);
 
-  if (err.status && err.status === 404) {
+  if (err.status) {
     return res.status(err.status).json({ error: err.message });
   }
-
-  if (err.errno === 1146) {
-    return res.status(400).json({
-      error: "no such table",
-    });
+  switch (err.code) {
+    case "ER_DUP_ENTRY":
+      res.status(400);
+      res.json({ msg: "Email already in use" });
+      break;
+    case "ER_NO_SUCH_TABLE":
+      res.status(400);
+      res.json({ msg: "No such table" });
+      break;
+    default:
+      res.status(500);
+      res.json("Server error (error handling)");
+      break;
   }
+  // if (err.errno === 1146) {
+  //   return res.status(400).json({
+  //     error: "no such table",
+  //   });
+  // }
 
-  res.status(500);
-  res.json("Server error (error handling)");
+  // res.status(500);
+  // res.json("Server error (error handling)");
 });
 
 app.listen(port, () => {

@@ -5,7 +5,7 @@ const { getSqlData } = require("./helper");
 
 const authRouter = express.Router();
 
-authRouter.post("/api/auth/login", async (req, res) => {
+authRouter.post("/api/auth/login", async (req, res, next) => {
   //pasiimti email,password is req.body
   const { email, password } = req.body;
   //ar yra toks vartotojas su el pastu
@@ -25,16 +25,17 @@ authRouter.post("/api/auth/login", async (req, res) => {
   const foundUser = usersArr[0];
   if (foundUser.password !== password) {
     // jei nesutampa - 'email or password do not match' 400
-    res.status(400).json("email or password do not match");
+    next({ message: "email or password do not match", status: 400 });
+    // res.status(400).json("email or password do not match");
     return;
   } else {
     // jei sutampa - 200, successfull login
-    res.status(200).json("successfull login");
+    res.status(200).json("Successfull login");
   }
 });
 //registracijos dalis
 
-authRouter.post("/api/auth/register", async (req, res) => {
+authRouter.post("/api/auth/register", async (req, res, next) => {
   const { email, password } = req.body;
   const sql = `
     INSERT INTO users (email, password)
@@ -42,8 +43,9 @@ authRouter.post("/api/auth/register", async (req, res) => {
     `;
   const [usersArr, error] = await getSqlData(sql, [email, password]);
   if (error) {
-    console.log(error);
-    res.status(500).json("This email already exist");
+    // console.log(error);
+    next(error);
+    // res.status(500).json("This email already exist");
     return;
   }
   res.status(200).json("new user was created");
