@@ -17,4 +17,12 @@ async function getSqlData(sql, argArr = []) {
 }
 // const [postArr, error] = getSqlData();
 
-module.exports = { getSqlData };
+async function getSqlDataNoTry(sql, argArr = []) {
+  let connection = await mysql.createConnection(dbConfig);
+  const [rows] = await connection.execute(sql, argArr);
+  connection?.end();
+  return [rows, null];
+
+  console.log("after connection  end");
+}
+module.exports = { getSqlData, getSqlDataNoTry };

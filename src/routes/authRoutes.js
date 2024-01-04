@@ -35,12 +35,12 @@ authRouter.post("/api/auth/login", async (req, res) => {
 //registracijos dalis
 
 authRouter.post("/api/auth/register", async (req, res) => {
-  const { email, password, created_at: created } = req.body;
+  const { email, password } = req.body;
   const sql = `
-    INSERT INTO users (email, password, created_at)
-    VALUES (?, ?, ?)
+    INSERT INTO users (email, password)
+    VALUES (?, ?)
     `;
-  const [usersArr, error] = await getSqlData(sql, [email, password, created]);
+  const [usersArr, error] = await getSqlData(sql, [email, password]);
   if (error) {
     console.log(error);
     res.status(500).json("This email already exist");

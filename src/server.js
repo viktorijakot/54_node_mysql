@@ -23,6 +23,22 @@ app.use("/", booksRouter);
 app.use("/", categoryRouter);
 app.use("/", authRouter);
 
+//error handling, turi butinai buti po routu
+
+app.use((err, req, res, next) => {
+  console.log("<<<< error handling >>>>");
+  console.log("err", err);
+
+  if (err.errno === 1146) {
+    res.status(400).json({
+      error: "no such table",
+    });
+  }
+
+  res.status(500);
+  res.json("Server error (error handling)");
+});
+
 app.listen(port, () => {
   console.log(`Server is listening on port ${port}`);
 });

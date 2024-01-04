@@ -1,7 +1,7 @@
 const express = require("express");
 const mysql = require("mysql2/promise");
 const { dbConfig } = require("../config");
-const { getSqlData } = require("./helper");
+const { getSqlData, getSqlDataNoTry } = require("./helper");
 
 const postRouter = express.Router();
 // GET /api/posts - get all posts
@@ -19,9 +19,10 @@ postRouter.get("/api/posts", async (req, res) => {
   GROUP BY posts.post_id`;
   const [postArr, error] = await getSqlData(sql);
   if (error) {
-    console.log(error);
-    res.status(500).json("something wrong");
-    return;
+    // console.log(error);
+    // res.status(500).json("something wrong");
+    // return;
+    return next(error);
   }
   console.log(postArr);
   res.json(postArr);
@@ -44,15 +45,15 @@ postRouter.get("/api/posts", async (req, res) => {
   // }
 });
 
-postRouter.get("/api/posts/:postId", async (req, res) => {
+postRouter.get("/api/posts/:postId", async (req, res, next) => {
   // let connection;
   const postId = req.params.postId;
   const sql = "SELECT * FROM posts WHERE post_id=?";
   const [postArr, error] = await getSqlData(sql, [postId]);
   if (error) {
-    console.log(error);
-    res.status(500).json("something wrong");
-    return;
+    // console.log(error);
+    // res.status(500).json("something wrong");
+    return next(error);
   }
   if (postArr.length === 1) {
     res.json(postArr[0]);
@@ -95,9 +96,10 @@ postRouter.delete("/api/posts/:postId", async (req, res) => {
   const sql = "DELETE FROM posts WHERE post_id=? LIMIT 1";
   const [postArr, error] = await getSqlData(sql, [postId]);
   if (error) {
-    console.log(error);
-    res.status(500).json("something wrong");
-    return;
+    // console.log(error);
+    // res.status(500).json("something wrong");
+    // return;
+    return next(error);
   }
   if (postArr.affectedRows === 1) {
     res.json({ msg: `post with id ${postId} was deleted` });
@@ -138,9 +140,10 @@ postRouter.post("/api/posts", async (req, res) => {
     catId,
   ]);
   if (error) {
-    console.log(error);
-    res.status(500).json("something wrong");
-    return;
+    // console.log(error);
+    // res.status(500).json("something wrong");
+    // return;
+    return next(error);
   }
   res.json(postArr);
 
