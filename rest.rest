@@ -50,8 +50,8 @@ POST http://localhost:3000/api/auth/login
 Content-Type: application/json
 
 {
-  "email": "james@bond.com",
-  "password": "12345"
+  "email": "appp5@aapp5.com",
+  "password": "12355"
 }
 
 ### REGISTER user

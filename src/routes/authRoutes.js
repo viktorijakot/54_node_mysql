@@ -25,7 +25,8 @@ authRouter.post("/api/auth/login", async (req, res, next) => {
   }
   //radom- palyginti ar surasto objekto slaptazodziai sutampa
   const foundUser = usersArr[0];
-  if (foundUser.password !== password) {
+  //plain password - password, hash pass - froundUser.paswword
+  if (!bcrypt.compareSync(password, foundUser.password)) {
     // jei nesutampa - 'email or password do not match' 400
     next({ message: "email or password do not match", status: 400 });
     // res.status(400).json("email or password do not match");
