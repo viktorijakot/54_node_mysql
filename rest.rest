@@ -59,6 +59,6 @@ POST http://localhost:3000/api/auth/register
 Content-Type: application/json
 
 {
-  "email": "appp@aapp.com",
-  "password": "123"
+  "email": "appp5@aapp5.com",
+  "password": "12355"
 }
