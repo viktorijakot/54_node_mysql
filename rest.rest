@@ -5,7 +5,7 @@ GET http://localhost:3000/
 GET http://localhost:3000/api/posts
 
 ### get one post
-GET http://localhost:3000/api/posts/3 OR 1=1
+GET http://localhost:3000/api/posts/33 OR 1=1
 
 ### delete
 DELETE  http://localhost:3000/api/posts/1

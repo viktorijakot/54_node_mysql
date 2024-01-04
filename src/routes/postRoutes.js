@@ -60,7 +60,8 @@ postRouter.get("/api/posts/:postId", async (req, res, next) => {
     return;
   }
   if (postArr.length === 0) {
-    res.status(404).json({ msg: "post not found" });
+    // res.status(404).json({ msg: "post not found" });
+    next({ message: "Post not found", status: 404 });
     return;
   }
   res.status(400).json(postArr);
