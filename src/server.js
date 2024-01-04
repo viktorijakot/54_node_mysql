@@ -41,19 +41,22 @@ app.use((err, req, res, next) => {
       res.status(400);
       res.json({ msg: "No such table" });
       break;
+    case "ERR_BAD_REQUEST":
+      res.status(500);
+      res.json({ msg: "This email already exist" });
     default:
       res.status(500);
       res.json("Server error (error handling)");
       break;
   }
-  // if (err.errno === 1146) {
-  //   return res.status(400).json({
-  //     error: "no such table",
-  //   });
-  // }
+  if (err.errno === 1146) {
+    return res.status(400).json({
+      error: "no such table",
+    });
+  }
 
-  // res.status(500);
-  // res.json("Server error (error handling)");
+  res.status(500);
+  res.json("Server error (error handling)");
 });
 
 app.listen(port, () => {
