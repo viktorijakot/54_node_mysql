@@ -1,13 +1,14 @@
 const express = require("express");
 const mysql = require("mysql2/promise");
-const { dbConfig } = require("../config");
+const { dbConfig, jwtSecret } = require("../config");
 const { getSqlData, getSqlDataNoTry } = require("./helper");
+const { authorizeToken } = require("../middleware");
 
 const postRouter = express.Router();
 // GET /api/posts - get all posts
 // SELECT * FROM `posts`
 
-postRouter.get("/api/posts", async (req, res) => {
+postRouter.get("/api/posts", authorizeToken, async (req, res) => {
   // const sql = "SELECT * FROM `posts`";
   const sql = `SELECT posts.post_id, posts.title, posts.author, posts.content, posts.date,  COUNT(post_comments.comm_id) AS commentCount,
   categories.title AS catagoryName
@@ -44,10 +45,14 @@ postRouter.get("/api/posts", async (req, res) => {
   //   connection?.end();
   // }
 });
+//routas tik autorizuotiem vartotojam
 
-postRouter.get("/api/posts/:postId", async (req, res, next) => {
+postRouter.get("/api/posts/:postId", authorizeToken, async (req, res, next) => {
   // let connection;
   const postId = req.params.postId;
+
+  //ar autorizuotas?
+
   const sql = "SELECT * FROM posts WHERE post_id=?";
   const [postArr, error] = await getSqlData(sql, [postId]);
   if (error) {
@@ -91,7 +96,7 @@ postRouter.get("/api/posts/:postId", async (req, res, next) => {
 
 //delete
 
-postRouter.delete("/api/posts/:postId", async (req, res) => {
+postRouter.delete("/api/posts/:postId", authorizeToken, async (req, res) => {
   // let connection;
   const postId = req.params.postId;
   const sql = "DELETE FROM posts WHERE post_id=? LIMIT 1";

@@ -1,8 +1,9 @@
 const express = require("express");
 const mysql = require("mysql2/promise");
 const bcrypt = require("bcryptjs");
-const { dbConfig } = require("../config");
-const { getSqlData } = require("./helper");
+const { dbConfig, jwtSecret } = require("../config");
+const { getSqlData, makeJwtToken } = require("./helper");
+const jwt = require("jsonwebtoken");
 
 const authRouter = express.Router();
 
@@ -32,8 +33,13 @@ authRouter.post("/api/auth/login", async (req, res, next) => {
     // res.status(400).json("email or password do not match");
     return;
   } else {
+    //sugeneruoti token
+    const payload = { email: email, sub: foundUser.id };
+    const token = makeJwtToken(payload);
+
+    // const token = jwt.sign(payload, jwtSecret, { expiresIn: "1h" });
     // jei sutampa - 200, successfull login
-    res.status(200).json("Successfull login");
+    res.status(200).json({ msg: "Successfull login", token });
   }
 });
 //registracijos dalis
