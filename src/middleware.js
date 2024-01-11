@@ -22,8 +22,11 @@ async function validatePostBody(req, res, next) {
     title: Yup.string().trim().min(3).required("Privalomas laukas"),
     author: Yup.string().trim().min(3).required(),
     content: Yup.string().trim().min(5, "Prasom placiau").required(),
-    date: Yup.date().min("1900-01-01").required("turetu buti data"),
-    cat_id: Yup.number().min(1).required(),
+    date: Yup.date().required("you have to choose date"),
+    cat_id: Yup.number()
+      .integer()
+      .min(1, "You have to choose category")
+      .required("You have to choose category"),
   });
   try {
     const user = await postScheme.validate(req.body, { abortEarly: false });
