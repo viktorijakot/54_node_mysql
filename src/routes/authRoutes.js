@@ -21,7 +21,7 @@ authRouter.post("/api/auth/login", async (req, res, next) => {
   }
   //neradom - pranesam kad email not found 400
   if (usersArr.length === 0) {
-    res.status(400).json("email was not found");
+    res.status(400).json("Email was not found");
     return;
   }
   //radom- palyginti ar surasto objekto slaptazodziai sutampa

@@ -2,7 +2,7 @@ const express = require("express");
 const mysql = require("mysql2/promise");
 const { dbConfig, jwtSecret } = require("../config");
 const { getSqlData, getSqlDataNoTry } = require("./helper");
-const { authorizeToken } = require("../middleware");
+const { authorizeToken, validatePostBody } = require("../middleware");
 
 const postRouter = express.Router();
 // GET /api/posts - get all posts
@@ -132,51 +132,56 @@ postRouter.delete("/api/posts/:postId", authorizeToken, async (req, res) => {
 
 //POST /api/posts - sukuria nauja posta
 
-postRouter.post("/api/posts", async (req, res) => {
-  const { title, author, date, content, cat_id: catId } = req.body;
-  const sql = `
+postRouter.post(
+  "/api/posts",
+  authorizeToken,
+  validatePostBody,
+  async (req, res) => {
+    const { title, author, date, content, cat_id: catId } = req.body;
+    const sql = `
       INSERT INTO posts (title, author, date, content, cat_id)
       VALUES (?, ?, ?, ?, ?)
       `;
-  const [postArr, error] = await getSqlData(sql, [
-    title,
-    author,
-    date,
-    content,
-    catId,
-  ]);
-  if (error) {
-    // console.log(error);
-    // res.status(500).json("something wrong");
-    // return;
-    return next(error);
+    const [postArr, error] = await getSqlData(sql, [
+      title,
+      author,
+      date,
+      content,
+      catId,
+    ]);
+    if (error) {
+      // console.log(error);
+      // res.status(500).json("something wrong");
+      // return;
+      return next(error);
+    }
+    res.json(postArr);
+
+    //validation
+
+    // let connection;
+    // try {
+    //   connection = await mysql.createConnection(dbConfig);
+    //   const sql = `
+    //     INSERT INTO posts (title, author, date, content, cat_id)
+    //     VALUES (?, ?, ?, ?, ?)
+    //     `;
+    //   const [rowObj] = await connection.execute(sql, [
+    //     title,
+    //     author,
+    //     date,
+    //     content,
+    //     catId,
+    //   ]);
+    //   res.json(rowObj);
+    // } catch (error) {
+    //   console.warn("/api/posts", error);
+    //   res.status(500).json("something wrong");
+    // } finally {
+    //   connection?.end();
+    // }
+    // // res.json("sukurti");
   }
-  res.json(postArr);
-
-  //validation
-
-  // let connection;
-  // try {
-  //   connection = await mysql.createConnection(dbConfig);
-  //   const sql = `
-  //     INSERT INTO posts (title, author, date, content, cat_id)
-  //     VALUES (?, ?, ?, ?, ?)
-  //     `;
-  //   const [rowObj] = await connection.execute(sql, [
-  //     title,
-  //     author,
-  //     date,
-  //     content,
-  //     catId,
-  //   ]);
-  //   res.json(rowObj);
-  // } catch (error) {
-  //   console.warn("/api/posts", error);
-  //   res.status(500).json("something wrong");
-  // } finally {
-  //   connection?.end();
-  // }
-  // // res.json("sukurti");
-});
+);
 
 module.exports = postRouter;
