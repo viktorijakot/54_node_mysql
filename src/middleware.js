@@ -22,7 +22,7 @@ async function validatePostBody(req, res, next) {
     title: Yup.string().trim().min(3).required("Privalomas laukas"),
     author: Yup.string().trim().min(3).required(),
     content: Yup.string().trim().min(5, "Prasom placiau").required(),
-    date: Yup.date().required(),
+    date: Yup.date().min("1900-01-01").required("turetu buti data"),
     cat_id: Yup.number().min(1).required(),
   });
   try {
@@ -34,6 +34,11 @@ async function validatePostBody(req, res, next) {
     const errFormater = {};
     const formatedErrors = error.inner.forEach((errObj) => {
       errFormater[errObj.path] = errObj.message;
+      if (errObj.path === "date") {
+        errFormater[errObj.path] = "date is invalid";
+      } else if (errObj.path === "cat_id") {
+        errFormater[errObj.path] = "you have to choose category";
+      }
     });
     res.status(400).json(errFormater);
   }
