@@ -7,19 +7,20 @@ Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJlbWFpbCI6ImFwcHA1Q
 
 ### get one post
 GET http://localhost:3000/api/posts/3 OR 1=1
-Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJlbWFpbCI6ImFwcHA1QGFhcHA1LmNvbSIsInN1YiI6MjMsImlhdCI6MTcwNDcxODA3MSwiZXhwIjoxNzA0NzIxNjcxfQ.aqe1QDvUrb0uVoiHkOOzFNS2TplhTd9sF3_vAhq8mtU
+Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJlbWFpbCI6ImFwcHA1QGFhcHA1LmNvbSIsInN1YiI6MjMsImlhdCI6MTcwNTMxODMxNywiZXhwIjoxNzA1MzIxOTE3fQ.CYCBBEdhheEwBXPI4qHw4q3LFBVQcIxbvucJ3shnxf0
 
 
 ### delete
-DELETE  http://localhost:3000/api/posts/1
+DELETE  http://localhost:3000/api/posts/10
+Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJlbWFpbCI6ImFwcHA1QGFhcHA1LmNvbSIsInN1YiI6MjMsImlhdCI6MTcwNTMxODMxNywiZXhwIjoxNzA1MzIxOTE3fQ.CYCBBEdhheEwBXPI4qHw4q3LFBVQcIxbvucJ3shnxf0
 
 ### POST CREATE POST
 POST  http://localhost:3000/api/posts
 Content-Type: application/json
-Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJlbWFpbCI6ImFwcHA1QGFhcHA1LmNvbSIsInN1YiI6MjMsImlhdCI6MTcwNDk3NDM5MiwiZXhwIjoxNzA0OTc3OTkyfQ.ib1c7sP_X2n_k0Oq-eNvMsFFpFS4YXuN9r3gsiHObOE
+Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJlbWFpbCI6ImFwcHA1QGFhcHA1LmNvbSIsInN1YiI6MjMsImlhdCI6MTcwNTMxODMxNywiZXhwIjoxNzA1MzIxOTE3fQ.CYCBBEdhheEwBXPI4qHw4q3LFBVQcIxbvucJ3shnxf0
 
 {
-  "title": "ff",
+  "title": "controller",
   "author": "Jane Dow",
   "date": "2023-12-28",
   "content": "Some important msg",
