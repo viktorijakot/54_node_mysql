@@ -3,7 +3,7 @@ GET http://localhost:3000/
 
 ### all posts
 GET http://localhost:3000/api/posts
-Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJlbWFpbCI6ImFwcHA1QGFhcHA1LmNvbSIsInN1YiI6MjMsImlhdCI6MTcwNDcxODA3MSwiZXhwIjoxNzA0NzIxNjcxfQ.aqe1QDvUrb0uVoiHkOOzFNS2TplhTd9sF3_vAhq8mtU
+Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJlbWFpbCI6ImFwcHA1QGFhcHA1LmNvbSIsInN1YiI6MjMsImlhdCI6MTcwNTMxODMxNywiZXhwIjoxNzA1MzIxOTE3fQ.CYCBBEdhheEwBXPI4qHw4q3LFBVQcIxbvucJ3shnxf0
 
 ### get one post
 GET http://localhost:3000/api/posts/3 OR 1=1
