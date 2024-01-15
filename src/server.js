@@ -8,6 +8,7 @@ const postRouter = require("./routes/postRoutes");
 const booksRouter = require("./routes/booksRoutes");
 const categoryRouter = require("./routes/categoryRoutes");
 const authRouter = require("./routes/authRoutes");
+const commentsRouter = require("./routes/commentsRoutes");
 
 const app = express();
 
@@ -22,6 +23,7 @@ app.use("/", postRouter);
 app.use("/", booksRouter);
 app.use("/", categoryRouter);
 app.use("/", authRouter);
+app.use("/", commentsRouter);
 
 //error handling, turi butinai buti po routu
 
