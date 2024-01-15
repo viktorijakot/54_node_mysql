@@ -70,12 +70,13 @@ Content-Type: application/json
 
 ### GET comments by postId
 GET http://localhost:3000/api/comments/5
-Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJlbWFpbCI6ImFwcHA1QGFhcHA1LmNvbSIsInN1YiI6MjMsImlhdCI6MTcwNTMwMDU2NiwiZXhwIjoxNzA1MzA0MTY2fQ.T4eKvNJ4T8K79NOTdXgNKylqpTSQhlUqNlcfqcWSlHE
+Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJlbWFpbCI6ImFwcHA1QGFhcHA1LmNvbSIsInN1YiI6MjMsImlhdCI6MTcwNTMxODMxNywiZXhwIjoxNzA1MzIxOTE3fQ.CYCBBEdhheEwBXPI4qHw4q3LFBVQcIxbvucJ3shnxf0
 
 ### POST comments
 
 POST http://localhost:3000/api/comments
 Content-Type: application/json
+Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJlbWFpbCI6ImFwcHA1QGFhcHA1LmNvbSIsInN1YiI6MjMsImlhdCI6MTcwNTMxODMxNywiZXhwIjoxNzA1MzIxOTE3fQ.CYCBBEdhheEwBXPI4qHw4q3LFBVQcIxbvucJ3shnxf0
 
 {
   "author": "surname@surname.com",
