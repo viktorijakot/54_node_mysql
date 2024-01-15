@@ -6,11 +6,11 @@ const commentsController = require("../controllers/commentsController");
 const commentsRouter = express.Router();
 
 commentsRouter.get(
-  "/api/comments/:postId",
+  "/api/comments/post/:postId",
   authorizeToken,
-  commentsController.getAll
+  commentsController.getPostComment
 );
 
-commentsRouter.post("/api/comments", commentsController.create);
+commentsRouter.post("/api/comments/post", commentsController.createPostComment);
 
 module.exports = commentsRouter;
