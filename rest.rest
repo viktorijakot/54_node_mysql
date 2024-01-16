@@ -11,8 +11,8 @@ Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJlbWFpbCI6ImFwcHA1Q
 
 
 ### delete
-DELETE  http://localhost:3000/api/posts/10
-Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJlbWFpbCI6ImFwcHA1QGFhcHA1LmNvbSIsInN1YiI6MjMsImlhdCI6MTcwNTQwNDY4OSwiZXhwIjoxNzA1NDA4Mjg5fQ.waykyOm8HclFDr64Sp_ewEf1PTsliMqzP5PiRybKNzg
+DELETE  http://localhost:3000/api/posts/2
+Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJlbWFpbCI6ImFwcHA1QGFhcHA1LmNvbSIsInN1YiI6MjMsImlhdCI6MTcwNTQxMjg0NiwiZXhwIjoxNzA1NDE2NDQ2fQ.3R4HGnCkbevYOYL2h7m3JbGkbT4jUH__G5pn0fxWnbA
 
 ### POST CREATE POST
 POST  http://localhost:3000/api/posts

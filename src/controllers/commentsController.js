@@ -1,10 +1,14 @@
 const { getSqlData } = require("../routes/helper");
 
 module.exports.getPostComment = async (req, res, next) => {
-  const postId = req.params.postId;
-  console.log("comments id ==", postId);
+  const { postId } = req.params;
 
-  const sql = "SELECT * FROM post_comments WHERE post_id=?";
+  const sql = `SELECT post_comments.comm_id, post_comments.author, post_comments.comment, post_comments.created_at, 
+  post_comments.post_id, users.email AS userEmail
+  FROM post_comments 
+  JOIN users
+  ON post_comments.user_id=users.id
+  WHERE post_id=?`;
   const [commentsArr, error] = await getSqlData(sql, [postId]);
   if (error) {
     console.log("getPostComments error ===", error);
@@ -35,16 +39,24 @@ module.exports.createPostComment = async (req, res, next) => {
   //     post_id,
   //   ]);
   const { author, comment, post_id } = req.body;
-  console.log(req.body);
+  const { userId } = req;
+
+  if (!userId) {
+    res.sendStatus(401);
+    return;
+  }
+
   const sql = `
-        INSERT INTO post_comments (author, comment, post_id)
-        VALUES (?, ?, ?)
+        INSERT INTO post_comments (author, comment, post_id, user_id)
+        VALUES (?, ?, ?, ?)
         `;
   const [commentsArr, error] = await getSqlData(sql, [
     author,
     comment,
     post_id,
+    userId,
   ]);
+
   if (error) {
     return next(error);
   }

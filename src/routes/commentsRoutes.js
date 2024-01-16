@@ -7,10 +7,14 @@ const commentsRouter = express.Router();
 
 commentsRouter.get(
   "/api/comments/post/:postId",
-  authorizeToken,
+  //   authorizeToken,
   commentsController.getPostComment
 );
 
-commentsRouter.post("/api/comments/post", commentsController.createPostComment);
+commentsRouter.post(
+  "/api/comments/post",
+  authorizeToken,
+  commentsController.createPostComment
+);
 
 module.exports = commentsRouter;
